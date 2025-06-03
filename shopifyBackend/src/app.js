@@ -4,9 +4,13 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/authRouter");
 const cartRouter = require("./routes/cartRouter");
 const orderRouter = require("./routes/orderRouter");
+const productRouter = require("./routes/productRouter");
+const cors = require("cors");
+
 require("dotenv").config();
 
 const app = express();
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(
   express.json({
     strict: true, // strict JSON parsing (default is true)
@@ -20,6 +24,7 @@ app.use(
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter); //=>from here it goes to fetch email and verify email and create a cookie
+app.use("/api", productRouter);
 app.use("/", cartRouter);
 app.use("/order", orderRouter);
 

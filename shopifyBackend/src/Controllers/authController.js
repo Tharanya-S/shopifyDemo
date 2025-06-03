@@ -39,7 +39,12 @@ exports.verifyOtp = async (req, res) => {
   const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "1d",
   });
-  res.cookie("token", token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+  res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "lax", 
+    secure: false, 
+    maxAge: 7 * 24 * 60 * 60 * 1000, 
+  });
   res.json({ message: "OTP verified, user authenticated!" });
 };
 
